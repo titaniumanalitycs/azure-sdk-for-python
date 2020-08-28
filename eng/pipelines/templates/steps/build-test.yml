@@ -54,6 +54,13 @@ steps:
 
   - pwsh: |
       Get-ChildItem -path env:
+      Write-Host $env:AZURE_TENANT_ID
+      Write-Host $env:AZURE_SUBSCRIPTION_ID
+      Write-Host $env:AZURE_CLIENT_ID
+      Write-Host $env:AZURE_CLIENT_SECRET
+      Write-Host $env:TEST_MODE
+      Write-Host $env:AZURE_SKIP_LIVE_RECORDING
+      Write-Host $env:AZURE_TEST_RUN_LIVE
     displayName: Dump Env
 
 
