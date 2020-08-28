@@ -396,7 +396,7 @@ def storage_account():
                         "TableEndpoint={}".format(storage_account.primary_endpoints.table),
                     ])
 
-                if not storage_account:
+                elif not storage_account:
                     # It means I have received a connection string
                     storage_name = storage_connection_string_parts["AccountName"]
                     storage_account = StorageAccount(
