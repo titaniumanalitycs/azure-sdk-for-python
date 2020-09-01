@@ -19,6 +19,10 @@ steps:
         --kusto-table-var KUSTO_TABLE `
         --identity "$(Build.QueuedBy)" `
         --vso-variable "${{ parameters.TargetVariable }}"
+
+      Write-Host "${{ parameters.TargetVariable }}"
+      Write-Host "$(Build.QueuedBy)"
+      Write-Host $(OwningGHUser)
     displayName: 'Resolving Queuing User'
     continueOnError: true
     workingDirectory: $(Build.SourcesDirectory)/tools_repo/tools/notification-configuration/identity-resolver
