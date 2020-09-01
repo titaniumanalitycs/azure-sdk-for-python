@@ -29,7 +29,7 @@ steps:
     continueOnError: true
     workingDirectory: $(Build.SourcesDirectory)/tools_repo/tools/notification-configuration/identity-resolver
     env:
-      TERM: xterm-256color
+      TERM: xterm-8color
       APP_ID: $(notification-aad-app-id)
       APP_SECRET: $(notification-aad-secret)
       AAD_TENANT: $(notification-aad-tenant)
