@@ -6,16 +6,11 @@ steps:
   - pwsh: |
       git clone https://github.com/Azure/azure-sdk-tools.git $(Build.SourcesDirectory)/tools_repo
       cd $(Build.SourcesDirectory)/tools_repo
-      git checkout 71b5740a3e5f5f891aedbdf173bc805e69218851
+      git checkout e608696c23022aa1362bff910ade29fc7bc3422a
     displayName: Setup Identity Resolver
 
-  - task: DotNetCoreInstaller@0
-    displayName: 'Use .NET Core '
-    inputs:
-      version: '2.1.503'
-
   - pwsh: |
-      $results = dotnet run -v q -- `
+      dotnet run -v q -- `
         --aad-app-id-var APP_ID `
         --aad-app-secret-var APP_SECRET `
         --aad-tenant-var AAD_TENANT `
@@ -24,8 +19,6 @@ steps:
         --kusto-table-var KUSTO_TABLE `
         --identity "$(Build.QueuedBy)" `
         --targetvar "${{ parameters.TargetVariable }}"
-
-      Write-Host $results
 
       Write-Host "dotnet run -v q -- --aad-app-id-var APP_ID --aad-app-secret-var APP_SECRET --aad-tenant-var AAD_TENANT --kusto-url-var KUSTO_URL --kusto-database-var KUSTO_DB --kusto-table-var KUSTO_TABLE --identity `"`$(Build.QueuedBy)`" --vso-variable `"`${{ parameters.TargetVariable }}`""
       Write-Host "${{ parameters.TargetVariable }}"
