@@ -15,7 +15,7 @@ steps:
       version: '2.1.503'
 
   - pwsh: |
-      dotnet run -v q -- `
+      $results = dotnet run -v q -- `
         --aad-app-id-var APP_ID `
         --aad-app-secret-var APP_SECRET `
         --aad-tenant-var AAD_TENANT `
@@ -24,6 +24,8 @@ steps:
         --kusto-table-var KUSTO_TABLE `
         --identity "$(Build.QueuedBy)" `
         --targetvar "${{ parameters.TargetVariable }}"
+
+      Write-Host $results
 
       Write-Host "dotnet run -v q -- --aad-app-id-var APP_ID --aad-app-secret-var APP_SECRET --aad-tenant-var AAD_TENANT --kusto-url-var KUSTO_URL --kusto-database-var KUSTO_DB --kusto-table-var KUSTO_TABLE --identity `"`$(Build.QueuedBy)`" --vso-variable `"`${{ parameters.TargetVariable }}`""
       Write-Host "${{ parameters.TargetVariable }}"
