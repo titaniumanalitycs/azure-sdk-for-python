@@ -6,8 +6,7 @@ steps:
   - pwsh: |
       git clone https://github.com/Azure/azure-sdk-tools.git $(Build.SourcesDirectory)/tools_repo
       cd $(Build.SourcesDirectory)/tools_repo
-      git checkout 9e92c989c50b99fe16f3a3d808175f445d143e6d
-      Write-Host $env:TERM
+      git checkout 35ad98f821913eb0e8872f861ee60589b563c865
     displayName: Setup Identity Resolver
 
   - pwsh: |
@@ -20,16 +19,10 @@ steps:
         --kusto-table-var KUSTO_TABLE `
         --identity "$(Build.QueuedBy)" `
         --targetvar "${{ parameters.TargetVariable }}"
-
-      Write-Host "dotnet run -v q -- --aad-app-id-var APP_ID --aad-app-secret-var APP_SECRET --aad-tenant-var AAD_TENANT --kusto-url-var KUSTO_URL --kusto-database-var KUSTO_DB --kusto-table-var KUSTO_TABLE --identity `"`$(Build.QueuedBy)`" --vso-variable `"`${{ parameters.TargetVariable }}`""
-      Write-Host "${{ parameters.TargetVariable }}"
-      Write-Host "$(Build.QueuedBy)"
-      Write-Host "$(OwningGHUser)"
     displayName: 'Resolving Queuing User'
     continueOnError: true
     workingDirectory: $(Build.SourcesDirectory)/tools_repo/tools/notification-configuration/identity-resolver
     env:
-      TERM: xterm-8color
       APP_ID: $(notification-aad-app-id)
       APP_SECRET: $(notification-aad-secret)
       AAD_TENANT: $(notification-aad-tenant)
@@ -37,20 +30,6 @@ steps:
       KUSTO_DB: $(notification-kusto-db)
       KUSTO_TABLE: $(notification-kusto-table)
 
-  - script: |
-      dotnet run -v q -- --aad-app-id-var APP_ID --aad-app-secret-var APP_SECRET --aad-tenant-var AAD_TENANT --kusto-url-var KUSTO_URL --kusto-database-var KUSTO_DB --kusto-table-var KUSTO_TABLE --identity "$(Build.QueuedBy)" --targetvar "${{ parameters.TargetVariable }}"
-    displayName: 'Resolving Queuing User CMD'
-    continueOnError: true
-    workingDirectory: $(Build.SourcesDirectory)/tools_repo/tools/notification-configuration/identity-resolver
-    env:
-      TERM: xterm-8color
-      APP_ID: $(notification-aad-app-id)
-      APP_SECRET: $(notification-aad-secret)
-      AAD_TENANT: $(notification-aad-tenant)
-      KUSTO_URL: $(notification-kusto-url)
-      KUSTO_DB: $(notification-kusto-db)
-      KUSTO_TABLE: $(notification-kusto-table)
-      
   - pwsh: |
       Remove-Item -Force -Recurse $(Build.SourcesDirectory)/tools_repo
     displayName: Clean Up Cloned Tools Repo
